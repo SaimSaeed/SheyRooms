@@ -1,0 +1,23 @@
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./scss/var";
+
+
+
+nav {
+  background-color: $back-color;
+
+  .navbar-brand{
+    color: $text-color;
+  }
+
+  ul {
+  
+
+    li {
+      .nav-link {
+        color: $text-color;
+      }
+    }
+  }
+
+}
