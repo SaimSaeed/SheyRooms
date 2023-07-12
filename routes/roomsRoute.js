@@ -10,7 +10,7 @@ router.get("/getallrooms",  async (req,res)=>{
 
 try {
     const rooms  = await Room.find({}) 
-    return res.json({rooms});
+    res.send(rooms);
 } catch (error) {
     return res.status(400).json({message:error})
 }

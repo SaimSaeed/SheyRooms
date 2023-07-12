@@ -1,11 +1,10 @@
 const express = require("express");
-
 const app  = express();
-
+var cors = require('cors')
 const roomsRoute = require("./routes/roomsRoute")
 
 
-app.use("/api/rooms",roomsRoute)
+app.use("/api/rooms",cors(),roomsRoute)
 
 
 
