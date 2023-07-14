@@ -13,6 +13,9 @@ nav {
 
   .navbar-brand{
     color: $text-color;
+    &:hover{
+      color: wheat;
+    }
   }
 
   ul {
@@ -21,6 +24,9 @@ nav {
     li {
       .nav-link {
         color: $text-color;
+        &:hover{
+          color: wheat;
+        }
       }
     }
   }
