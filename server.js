@@ -3,7 +3,7 @@ const app  = express();
 var cors = require('cors')
 const roomsRoute = require("./routes/roomsRoute")
 
-
+app.use(express.json())
 app.use("/api/rooms",cors(),roomsRoute)
 
 

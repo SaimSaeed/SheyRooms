@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import Room from "../components/Room"
-const baseUrl = "http://localhost:5000/api/rooms/getallrooms";
+
 
 function Homescreen() {
-
+    const baseUrl = "http://localhost:5000/api/rooms/getallrooms";
     const [rooms, setrooms] = useState([])
     const [loading, setloading] = useState()
     const [error, seterror] = useState()

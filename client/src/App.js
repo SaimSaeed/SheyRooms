@@ -7,6 +7,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom"
+import Bookingscreen from './screens/Bookingscreen';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
 
 <Routes>
 <Route  path='/home'    exact Component={Homescreen}/>
-
+<Route path='/book/:roomid' exact Component={Bookingscreen}/>
 
 
 </Routes>
