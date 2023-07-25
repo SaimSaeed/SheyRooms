@@ -8,17 +8,21 @@ import {
   Routes,
 } from "react-router-dom"
 import Bookingscreen from './screens/Bookingscreen';
+import Registerscreen from './screens/Registerscreen';
+import Loginscreen from './screens/Loginscreen';
 
 
 function App() {
   return (
     <>
- <Navbar/>
+ 
 <BrowserRouter>
-
+<Navbar/>
 <Routes>
 <Route  path='/home'    exact Component={Homescreen}/>
 <Route path='/book/:roomid' exact Component={Bookingscreen}/>
+<Route path='/register' exact Component={Registerscreen}/>
+<Route path='/login' exact Component={Loginscreen}/>
 
 
 </Routes>

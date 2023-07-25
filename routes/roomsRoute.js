@@ -16,7 +16,7 @@ try {
 }
 
 })
-
+//Post is used to add a new data this was added to get roomid from mongodb when a certain hotel is clicked for booking
 router.post("/getroombyid",  async (req,res)=>{
 
 
