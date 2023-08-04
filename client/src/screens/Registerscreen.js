@@ -1,5 +1,8 @@
 import React , {useState}from 'react'
 import axios from 'axios'
+import Loader from '../components/Loader'
+import Error from '../components/Error'
+import Success from '../components/Success'
 
 function Registerscreen() {
 
@@ -8,6 +11,12 @@ const [name,setname]=useState('')
 const [email,setemail]=useState('')
 const [password,setpassword]=useState('')
 const [cpassword,setcpassword]=useState('')
+
+
+
+const [loading, setloading] = useState(false)
+const [error, seterror] = useState()
+const [success, setsuccess] = useState()
 
 
  async function register(){
@@ -19,8 +28,18 @@ if(password===cpassword){
         cpassword
     }
     try {
+        setloading(true)
         const result = await axios.post('http://localhost:5000/api/users/register',user).data
+        setloading(false)
+        setsuccess(true)
+        
+        setname('')
+        setemail('')
+        setpassword('')
+        setcpassword('')
     } catch (error) {
+        setloading(false)
+        seterror(true)
         console.log(error)
     }
 }
@@ -39,6 +58,10 @@ else{
 
   return (
     <div>
+
+ {loading && (<Loader/>)}
+ {error && (<Error/>)}
+ {success && (<Success message={"Registration Completed"}/>)}
 
 <div className='row justify-content-center mt-5'> 
 
