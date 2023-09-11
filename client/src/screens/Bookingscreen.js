@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
+import moment from "moment"
 
 function Bookingscreen() {
 
@@ -10,13 +11,16 @@ function Bookingscreen() {
     const [loading, setloading] = useState(true)
     const [error, seterror] = useState()
 
-    const { roomid } = useParams()   //Params are used to replace match.params.roomid which was used in react-router-dom older versions
+    const { roomid,fromDate,toDate } = useParams()   //Params are used to replace match.params.roomid which was used in react-router-dom older versions
+// Setting up Dates Formats
+    const todate = moment(toDate,"DD-MM-YY")
+    const fromdate = moment(fromDate,"DD-MM-YY")
+// Getting Number of Days Left
+  const totalDays = todate.diff(fromdate,"days")+1
 
 
 
-
-
-
+// Function to fetch a Single Room from MongoDB
     useEffect(() => {
         const myFunction = async () => {
             try {
@@ -55,8 +59,8 @@ function Bookingscreen() {
                             <hr />
                             <b>
                                 <p>Name:</p>
-                                <p>From Date:</p>
-                                <p>To Date:</p>
+                                <p>From Date:{fromDate}</p>
+                                <p>To Date:{toDate}</p>
                                 <p>Max Count:{room.maxcount}</p>
                             </b>
                         </div>
@@ -66,7 +70,7 @@ function Bookingscreen() {
                             <hr />
 
                             <b>
-                                <p>Total Days:</p>
+                                <p>Total Days:{totalDays}</p>
                                 <p>Rent Per Day:{room.rentperday}</p>
                                 <p>Total Amount:</p>
                             </b>

@@ -6,27 +6,29 @@ import Success from '../components/Success'
 
 function Registerscreen() {
 
-
+// States for Inputs
 const [name,setname]=useState('')
 const [email,setemail]=useState('')
 const [password,setpassword]=useState('')
 const [cpassword,setcpassword]=useState('')
 
 
-
+// States for Response
 const [loading, setloading] = useState(false)
 const [error, seterror] = useState()
 const [success, setsuccess] = useState()
 
-
+// Register Function
  async function register(){
 if(password===cpassword){
+    // Object Getting Values from Inputs
     const user ={
         name,
         email,
         password,
         cpassword
     }
+    // Sending Data to MongoDB
     try {
         setloading(true)
         const result = await axios.post('http://localhost:5000/api/users/register',user).data
@@ -59,6 +61,7 @@ else{
   return (
     <div>
 
+{/* If States are true only then components will show */}
  {loading && (<Loader/>)}
  {error && (<Error/>)}
  {success && (<Success message={"Registration Completed"}/>)}

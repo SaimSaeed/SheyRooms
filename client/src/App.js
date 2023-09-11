@@ -20,7 +20,7 @@ function App() {
 <Navbar/>
 <Routes>
 <Route  path='/home'    exact Component={Homescreen}/>
-<Route path='/book/:roomid' exact Component={Bookingscreen}/>
+<Route path='/book/:roomid/:fromDate/:toDate' exact Component={Bookingscreen}/>
 <Route path='/register' exact Component={Registerscreen}/>
 <Route path='/login' exact Component={Loginscreen}/>
 

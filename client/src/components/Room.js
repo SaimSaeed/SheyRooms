@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Modal, Button, Carousel } from "react-bootstrap";
 import {Link} from "react-router-dom"
 
-function Room({ room }) {
+function Room({ room,fromDate,toDate }) {
 
+    // States for Modal
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -26,7 +26,8 @@ function Room({ room }) {
                         <p>Type: {room.type}</p>
                     </b>
                     <div style={{ float: "right" }}>
-                        <Link to={`/book/${room._id}`}>
+                        {/* Path Defined for Room and Dates */}
+                        <Link to={`/book/${room._id}/${fromDate}/${toDate}`}>
                         <button className='btn btn-dark m-2 '>Book Now</button>
                         </Link>
                         <button className='btn btn-dark ' onClick={handleShow}>View Details</button>

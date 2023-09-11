@@ -3,19 +3,22 @@ import axios from 'axios'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 function Loginscreen() {
+  // States
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const [loading, setloading] = useState(false)
   const [error, seterror] = useState()
-
+// Login Function
   async function login() {
-    
+    // Getting User Data
+    // Object Getting Values from inputs
     const user = {
 
       email,
       password
 
     }
+// Data is sent to Database to verify
     try {
       setloading(true);
       const result = await (await axios.post('http://localhost:5000/api/users/login', user)).data
@@ -40,7 +43,7 @@ function Loginscreen() {
 
   return (
     <div>
-
+{/* If Loader and error is true only then the components will show */}
       {loading && (<Loader />)}
       {error && (<Error message={"Invalid Credentials"}/>)}
       <div className='row justify-content-center mt-5'>
