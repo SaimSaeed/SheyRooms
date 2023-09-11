@@ -10,14 +10,14 @@ function Bookingscreen() {
     const [room, setroom] = useState()
     const [loading, setloading] = useState(true)
     const [error, seterror] = useState()
-
     const { roomid,fromDate,toDate } = useParams()   //Params are used to replace match.params.roomid which was used in react-router-dom older versions
 // Setting up Dates Formats
     const todate = moment(toDate,"DD-MM-YY")
     const fromdate = moment(fromDate,"DD-MM-YY")
 // Getting Number of Days Left
   const totalDays = todate.diff(fromdate,"days")+1
-
+// Getting Total Amount
+const totalAmount= totalDays*room.rentperday
 
 
 // Function to fetch a Single Room from MongoDB
@@ -40,7 +40,7 @@ function Bookingscreen() {
 
     }, []);
 
-
+    
     return (
         <div className='mx-5'>
 
@@ -72,7 +72,7 @@ function Bookingscreen() {
                             <b>
                                 <p>Total Days:{totalDays}</p>
                                 <p>Rent Per Day:{room.rentperday}</p>
-                                <p>Total Amount:</p>
+                                <p>Total Amount:{totalAmount}</p>
                             </b>
 
                         </div>
