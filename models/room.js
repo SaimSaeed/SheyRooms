@@ -10,7 +10,7 @@ maxcount:{
     type: Number,
     required: true
 },
-phoneNumber:{
+phonenumber:{
     type: Number,
     required: true
 },

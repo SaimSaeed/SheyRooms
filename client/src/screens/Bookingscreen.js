@@ -12,12 +12,12 @@ function Bookingscreen() {
     const [error, seterror] = useState()
     const { roomid,fromDate,toDate } = useParams()   //Params are used to replace match.params.roomid which was used in react-router-dom older versions
 // Setting up Dates Formats
-    const todate = moment(toDate,"DD-MM-YY")
-    const fromdate = moment(fromDate,"DD-MM-YY")
+    const todate = moment(toDate,"DD-MM-YYYY")
+    const fromdate = moment(fromDate,"DD-MM-YYYY")
 // Getting Number of Days Left
-  const totalDays = todate.diff(fromdate,"days")+1
+  const totaldays = todate.diff(fromdate,"days")+1
 // Getting Total Amount
-const totalAmount= totalDays*room.rentperday
+const [totalamount,setTotalAmount]= useState()
 
 
 // Function to fetch a Single Room from MongoDB
@@ -27,6 +27,7 @@ const totalAmount= totalDays*room.rentperday
                 setloading(true);
                 const data = (await axios.post("http://localhost:5000/api/rooms/getroombyid", { roomid })).data;
                 setroom(data)
+                setTotalAmount(data.rentperday*totaldays)
                 setloading(false)
             } catch (error) {
                 setloading(false)
@@ -39,6 +40,31 @@ const totalAmount= totalDays*room.rentperday
         myFunction()
 
     }, []);
+
+
+    // Book Room Function
+    async function bookRoom(){
+        // Getting Details
+const bookingDetails = {
+room,
+userid:JSON.parse(localStorage.getItem("currentUser"))._id,
+fromdate,
+todate,
+totaldays,
+totalamount,
+}
+// Posting data to bookroom routes to fetch and post
+try {
+    // const result = await axios.post('/api/bookings/bookroom',bookingDetails)
+    const result = await  axios.post('http://localhost:5000/api/bookings/bookroom',bookingDetails)
+} catch (error) {
+    console.error(error)
+
+}
+
+
+    }
+    const user = JSON.parse(localStorage.getItem("currentUser"))
 
     
     return (
@@ -58,7 +84,7 @@ const totalAmount= totalDays*room.rentperday
                             <h4>Booking Details</h4>
                             <hr />
                             <b>
-                                <p>Name:</p>
+                                <p>Name:{user.name}</p>
                                 <p>From Date:{fromDate}</p>
                                 <p>To Date:{toDate}</p>
                                 <p>Max Count:{room.maxcount}</p>
@@ -70,16 +96,16 @@ const totalAmount= totalDays*room.rentperday
                             <hr />
 
                             <b>
-                                <p>Total Days:{totalDays}</p>
+                                <p>Total Days:{totaldays}</p>
                                 <p>Rent Per Day:{room.rentperday}</p>
-                                <p>Total Amount:{totalAmount}</p>
+                                <p>Total Amount:{totalamount}</p>
                             </b>
 
                         </div>
 
 
                         <div>
-                            <button className='btn btn-dark' style={{float:"right"}}>
+                            <button className='btn btn-dark' style={{float:"right"}} onClick={bookRoom}>
                                 Pay Now
                             </button>
                         </div>
