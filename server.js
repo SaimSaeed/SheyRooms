@@ -5,10 +5,12 @@ const roomsRoute = require("./routes/roomsRoute")
 const usersRoute = require("./routes/usersRoute")
 const bookingsRoute = require("./routes/bookingsRoute")
 
+app.use(cors());
+app.options('*', cors());
 app.use(express.json())  //this is necessary to be added other wise roomid will not be fetched to body
-app.use("/api/rooms",cors(),roomsRoute)
-app.use("/api/users",cors(),usersRoute)
-app.use("/api/bookings",cors(),bookingsRoute)
+app.use("/api/rooms",roomsRoute)
+app.use("/api/users",usersRoute)
+app.use("/api/bookings",bookingsRoute)
 
 
 

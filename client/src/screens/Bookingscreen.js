@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
 import moment from "moment"
+import StripeCheckout from 'react-stripe-checkout';
 
 function Bookingscreen() {
 
@@ -66,6 +67,10 @@ try {
     }
     const user = JSON.parse(localStorage.getItem("currentUser"))
 
+
+    const onToken = (token) => {
+        console.log(token)
+    }
     
     return (
         <div className='mx-5'>
@@ -105,9 +110,18 @@ try {
 
 
                         <div>
+                        <StripeCheckout
+                                    ComponentClass="div"
+                                    name='Checkout'
+                                    currency='USD'
+                                    amount={totalamount}
+                                    token={onToken}
+                                    stripeKey="pk_test_51P2Aq0IaFe5goczal8jGVHYnaMHI5EsMOt2KkgndUjxYkWecXALgJIe5b29TgntHrOG0npAM0KZkV9mCBGGYHWT700eq85lFeG"
+                                >
                             <button className='btn btn-dark' style={{float:"right"}} onClick={bookRoom}>
                                 Pay Now
                             </button>
+                            </StripeCheckout>
                         </div>
 
 
