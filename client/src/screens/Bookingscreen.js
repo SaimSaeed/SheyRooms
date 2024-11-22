@@ -11,24 +11,24 @@ function Bookingscreen() {
     const [room, setroom] = useState()
     const [loading, setloading] = useState(true)
     const [error, seterror] = useState()
-    const { roomid,fromDate,toDate } = useParams()   //Params are used to replace match.params.roomid which was used in react-router-dom older versions
-// Setting up Dates Formats
-    const todate = moment(toDate,"DD-MM-YYYY")
-    const fromdate = moment(fromDate,"DD-MM-YYYY")
-// Getting Number of Days Left
-  const totaldays = todate.diff(fromdate,"days")+1
-// Getting Total Amount
-const [totalamount,setTotalAmount]= useState()
+    const { roomid, fromDate, toDate } = useParams()   //Params are used to replace match.params.roomid which was used in react-router-dom older versions
+    // Setting up Dates Formats
+    const todate = moment(toDate, "DD-MM-YYYY")
+    const fromdate = moment(fromDate, "DD-MM-YYYY")
+    // Getting Number of Days Left
+    const totaldays = todate.diff(fromdate, "days") + 1
+    // Getting Total Amount
+    const [totalamount, setTotalAmount] = useState()
 
 
-// Function to fetch a Single Room from MongoDB
+    // Function to fetch a Single Room from MongoDB
     useEffect(() => {
         const myFunction = async () => {
             try {
                 setloading(true);
                 const data = (await axios.post("http://localhost:5000/api/rooms/getroombyid", { roomid })).data;
                 setroom(data)
-                setTotalAmount(data.rentperday*totaldays)
+                setTotalAmount(data.rentperday * totaldays)
                 setloading(false)
             } catch (error) {
                 setloading(false)
@@ -42,40 +42,37 @@ const [totalamount,setTotalAmount]= useState()
 
     }, []);
 
-
-    // Book Room Function
-    async function bookRoom(){
-        // Getting Details
-const bookingDetails = {
-room,
-userid:JSON.parse(localStorage.getItem("currentUser"))._id,
-fromdate,
-todate,
-totaldays,
-totalamount,
-}
-// Posting data to bookroom routes to fetch and post
-try {
-    // const result = await axios.post('/api/bookings/bookroom',bookingDetails)
-    const result = await  axios.post('http://localhost:5000/api/bookings/bookroom',bookingDetails)
-} catch (error) {
-    console.error(error)
-
-}
-
-
-    }
+    
     const user = JSON.parse(localStorage.getItem("currentUser"))
 
 
-    const onToken = (token) => {
+    const onToken =async (token) => {
         console.log(token)
+        // Getting Details
+        const bookingDetails = {
+            room,
+            userid: JSON.parse(localStorage.getItem("currentUser"))._id,
+            fromdate,
+            todate,
+            totaldays,
+            totalamount,
+            token
+        }
+        // Posting data to bookroom routes to fetch and post
+        try {
+            // const result = await axios.post('/api/bookings/bookroom',bookingDetails)
+            const result = await axios.post('http://localhost:5000/api/bookings/bookroom', bookingDetails)
+        } catch (error) {
+            console.error(error)
+
+        }
+
     }
-    
+
     return (
         <div className='mx-5'>
 
-            {loading ? (<Loader/>) : error ? (<Error/>) : (<div className='container-fluid'>
+            {loading ? (<Loader />) : error ? (<Error />) : (<div className='container-fluid'>
 
 
 
@@ -85,7 +82,7 @@ try {
                         <img className='bigimg' alt='booking' src={room.imageurls[0]} style={{ height: "360px", width: "auto", border: "1px solid transparent", borderRadius: "5px" }} />
                     </div>
                     <div className='col-md-6'>
-                        <div style={{textAlign:"right"}}>
+                        <div style={{ textAlign: "right" }}>
                             <h4>Booking Details</h4>
                             <hr />
                             <b>
@@ -96,7 +93,7 @@ try {
                             </b>
                         </div>
 
-                        <div  style={{textAlign:"right"}}>
+                        <div style={{ textAlign: "right" }}>
                             <h4>Amount</h4>
                             <hr />
 
@@ -110,17 +107,17 @@ try {
 
 
                         <div>
-                        <StripeCheckout
-                                    ComponentClass="div"
-                                    name='Checkout'
-                                    currency='USD'
-                                    amount={totalamount}
-                                    token={onToken}
-                                    stripeKey="pk_test_51P2Aq0IaFe5goczal8jGVHYnaMHI5EsMOt2KkgndUjxYkWecXALgJIe5b29TgntHrOG0npAM0KZkV9mCBGGYHWT700eq85lFeG"
-                                >
-                            <button className='btn btn-dark' style={{float:"right"}} onClick={bookRoom}>
-                                Pay Now
-                            </button>
+                            <StripeCheckout
+                                ComponentClass="div"
+                                name='Checkout'
+                                currency='PKR'
+                                amount={totalamount}
+                                token={onToken}
+                                stripeKey="pk_test_51P2Aq0IaFe5goczal8jGVHYnaMHI5EsMOt2KkgndUjxYkWecXALgJIe5b29TgntHrOG0npAM0KZkV9mCBGGYHWT700eq85lFeG"
+                            >
+                                <button className='btn btn-dark' style={{ float: "right" }}>
+                                    Pay Now
+                                </button>
                             </StripeCheckout>
                         </div>
 
