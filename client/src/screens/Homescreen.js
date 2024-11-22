@@ -4,6 +4,7 @@ import Room from "../components/Room"
 import Loader from '../components/Loader';
 import Error from '../components/Error';
 import { DatePicker, Space } from 'antd';
+import { Form } from 'react-bootstrap';
 // import moment from "moment"
 const { RangePicker } = DatePicker;
 
@@ -17,7 +18,8 @@ function Homescreen() {
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
 const [duplicateRooms,setDuplicateRooms] = useState([])
-
+ const [searchKey,setSearchKey] = useState("")
+ const [selectedValue,setSelectedValue] = useState("")
     // useEffect(() => {
     //     try {
     //         setloading(true)
@@ -76,12 +78,27 @@ for(const room of duplicateRooms){
 
 
     return (
-        <div className='container'>
-            <div className='row'>
-                <div className='col-md-3 mt-5'>
+        <div className='container p-4'>
+            <div className='row d-flex align-items-center justify-content-around border rounded py-2'>
+                <div className='col-md-3'>
                     {/* Setting up date picker and its format  */}
-                    <RangePicker format={"DD-MM-YYYY"} onChange={filterByDate} />
+                    <RangePicker format={"DD-MM-YYYY"} onChange={filterByDate}  className='p-2'/>
                 </div>
+                <div className='col-md-3'>
+                    <Form.Control type='text'  className='p-1 my-auto' placeholder='Search...' onChange={e=>setSearchKey(e.target.value)}>
+                    </Form.Control>
+
+                    
+                </div>
+                <div className='col-md-3'>
+                    <Form.Control as='select' className='p-1 my-auto' placeholder='Select' onChange={e=>setSelectedValue(e.target.value)}>
+                      <option selected value={"all"}>All</option>
+                      <option value={"deluxe"}>Deluxe</option>
+                      <option value={"non-deluxe"}>Non-Deluxe</option>
+
+                    </Form.Control>
+                </div>
+                
 
 
             </div>

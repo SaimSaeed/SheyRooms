@@ -10,6 +10,7 @@ import {
 import Bookingscreen from './screens/Bookingscreen';
 import Registerscreen from './screens/Registerscreen';
 import Loginscreen from './screens/Loginscreen';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
 
 
 </Routes>
-
+<Footer/>
 </BrowserRouter>
 
 
