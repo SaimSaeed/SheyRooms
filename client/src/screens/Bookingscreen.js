@@ -5,6 +5,7 @@ import Loader from '../components/Loader'
 import Error from '../components/Error'
 import moment from "moment"
 import StripeCheckout from 'react-stripe-checkout';
+import Swal from 'sweetalert2'
 
 function Bookingscreen() {
 
@@ -33,14 +34,13 @@ function Bookingscreen() {
             } catch (error) {
                 setloading(false)
                 seterror(true)
-
             }
 
         }
 
         myFunction()
 
-    }, []);
+    }, [roomid,totaldays]);
 
     
     const user = JSON.parse(localStorage.getItem("currentUser"))
@@ -61,10 +61,17 @@ function Bookingscreen() {
         // Posting data to bookroom routes to fetch and post
         try {
             // const result = await axios.post('/api/bookings/bookroom',bookingDetails)
-            const result = await axios.post('http://localhost:5000/api/bookings/bookroom', bookingDetails)
+            setloading(true)
+            await axios.post('http://localhost:5000/api/bookings/bookroom', bookingDetails)
+            setloading(false)
+            Swal.fire("Congratulations", "Your Room is Booked Successfully!","success").then(()=>{
+                window.location.href = "/bookings"
+            })
+            
         } catch (error) {
+            setloading(false)
             console.error(error)
-
+            Swal.fire("Error", "Room Booking Failed","error")
         }
 
     }
@@ -111,7 +118,7 @@ function Bookingscreen() {
                                 ComponentClass="div"
                                 name='Checkout'
                                 currency='PKR'
-                                amount={totalamount}
+                                amount={totalamount*100}
                                 token={onToken}
                                 stripeKey="pk_test_51P2Aq0IaFe5goczal8jGVHYnaMHI5EsMOt2KkgndUjxYkWecXALgJIe5b29TgntHrOG0npAM0KZkV9mCBGGYHWT700eq85lFeG"
                             >
