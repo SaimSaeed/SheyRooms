@@ -65,42 +65,43 @@ function Homescreen() {
         // Format the selected dates
         const formattedFromDate = dates[0].format("DD-MM-YYYY");
         const formattedToDate = dates[1].format("DD-MM-YYYY");
-    
+
         setFromDate(formattedFromDate);
         setToDate(formattedToDate);
-    
+
         // Filter the rooms
         const tempRooms = duplicateRooms.filter((room) => {
             // If no bookings exist, include the room
             if (!room.currentbookings || room.currentbookings.length === 0) {
                 return true;
             }
-    
+
             // Check for overlaps in current bookings
             const isAvailable = room.currentbookings.every(({ fromdate, todate }) => {
                 const bookingStart = moment(fromdate, "DD-MM-YYYY");
                 const bookingEnd = moment(todate, "DD-MM-YYYY");
-    
+
                 // Return true if there is NO overlap
                 return (
                     moment(formattedFromDate).isAfter(bookingEnd) || // Selected range starts after this booking ends
                     moment(formattedToDate).isBefore(bookingStart)   // Selected range ends before this booking starts
                 );
             });
-    
+
             // Include the room only if it's available
             return isAvailable;
         });
-    
+
         setrooms(tempRooms); // Update the state with the filtered rooms
     };
-    
-    
-    
-    
+
+
+
+
 
     const filterBySearch = () => {
-
+    const tempRooms = duplicateRooms.filter((room)=>room.name.toLowerCase().includes(searchKey.toLowerCase()))
+    setrooms(tempRooms)
     }
 
 
@@ -135,7 +136,7 @@ function Homescreen() {
 
 
             <div className='row justify-content-center mt-5'>
-                {loading ? (<Loader />) : error ? (<Error />) : (rooms.map(room => {
+                {loading ? (<Loader />) : error ? (<Error />) : (rooms?.map(room => {
                     return <div className='col-md-9 mt-2'>
 
                         <Room room={room} fromDate={fromDate} toDate={toDate} />
