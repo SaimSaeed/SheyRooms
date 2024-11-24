@@ -4,7 +4,7 @@ function Footer() {
     const date = new Date()
     const presentDate = date.getFullYear()
   return (
-    <div className='text-center'>{presentDate} &reg; All Rights Reserved</div>
+    <div className='text-center my-2'>{presentDate} &reg; All Rights Reserved</div>
   )
 }
 
