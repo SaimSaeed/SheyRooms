@@ -20,7 +20,8 @@ function Homescreen() {
     const [toDate, setToDate] = useState()
     const [duplicateRooms, setDuplicateRooms] = useState([])
     const [searchKey, setSearchKey] = useState("")
-    const [selectedValue, setSelectedValue] = useState("")
+    const [selectedValue, setSelectedValue] = useState("all")
+
     // useEffect(() => {
     //     try {
     //         setloading(true)
@@ -105,6 +106,22 @@ function Homescreen() {
     }
 
 
+    const filterByType = ()=>{
+    const tempRooms = duplicateRooms.filter((room)=>{
+    if(selectedValue === "all"){
+        return true
+    }
+    else if( selectedValue === "Delux" && room.type === selectedValue){
+        return true
+    }
+    else if(selectedValue === "Non-Delux" && room.type === selectedValue){
+        return true
+    }
+    })
+    setrooms(tempRooms)
+    }
+
+
     return (
         <div className='container p-4'>
             <div className='row d-flex align-items-center justify-content-around border rounded py-2'>
@@ -119,10 +136,10 @@ function Homescreen() {
 
                 </div>
                 <div className='col-md-3'>
-                    <Form.Control as='select' className='p-1 my-auto' placeholder='Select' onChange={e => setSelectedValue(e.target.value)}>
+                    <Form.Control as='select' className='p-1 my-auto' placeholder='Select'  onChange={e => setSelectedValue(e.target.value)} onClick={filterByType}>
                         <option selected value={"all"}>All</option>
-                        <option value={"deluxe"}>Deluxe</option>
-                        <option value={"non-deluxe"}>Non-Deluxe</option>
+                        <option value={"Delux"}>Deluxe</option>
+                        <option value={"Non-Delux"}>Non-Deluxe</option>
 
                     </Form.Control>
                 </div>
