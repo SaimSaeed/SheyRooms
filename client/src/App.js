@@ -10,6 +10,7 @@ import {
 import Bookingscreen from './screens/Bookingscreen';
 import Registerscreen from './screens/Registerscreen';
 import Loginscreen from './screens/Loginscreen';
+import Profile from './screens/Profile';
 import Footer from './components/Footer';
 
 
@@ -21,6 +22,7 @@ function App() {
 <Navbar/>
 <Routes>
 <Route  path='/home'    exact Component={Homescreen}/>
+<Route  path='/bookings'    exact Component={Profile}/>
 <Route path='/book/:roomid/:fromDate/:toDate' exact Component={Bookingscreen}/>
 <Route path='/register' exact Component={Registerscreen}/>
 <Route path='/login' exact Component={Loginscreen}/>
