@@ -12,7 +12,7 @@ import Registerscreen from './screens/Registerscreen';
 import Loginscreen from './screens/Loginscreen';
 import Profile from './screens/Profile';
 import Footer from './components/Footer';
-
+import "react-toastify/ReactToastify.min.css"
 
 function App() {
   return (

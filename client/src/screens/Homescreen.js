@@ -154,7 +154,7 @@ function Homescreen() {
 
             <div className='row justify-content-center mt-5'>
                 {loading ? (<Loader />) : error ? (<Error />) : (rooms?.map(room => {
-                    return <div className='col-md-9 mt-2'>
+                    return <div className='col-md-12 mt-2'>
 
                         <Room room={room} fromDate={fromDate} toDate={toDate} />
 

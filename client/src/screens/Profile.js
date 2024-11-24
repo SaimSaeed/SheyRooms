@@ -3,13 +3,20 @@ import { Container, ListGroup, Row, Col, Card, Button, Form, FormControl } from 
 import axios from 'axios'
 import Loader from '../components/Loader'
 import Error from '../components/Error'
+import { toast, ToastContainer } from "react-toastify"
 
 function Profile() {
-
+    const user = localStorage.getItem("currentUser")
+    const parsedUser = JSON.parse(user)
     const [bookings, setBookings] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    const user = localStorage.getItem("currentUser")
+    const [username,setUsername] = useState(parsedUser.name)
+    const [email,setEmail] = useState(parsedUser.email)
+    const [password,setPassword] = useState("")
+    const [cPassword,setCPassword] = useState("")
+
+
     const userBookings = bookings.map(booking => booking?.currentbookings?.userid === user._id ? booking : [])
     console.log(userBookings)
     useEffect(() => {
@@ -31,26 +38,39 @@ function Profile() {
 
     }, [user._id])
 
+
+    const cancelBooking = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/bookings/${id}`)
+            toast.success("Booking Cancelled Successfully!")
+            window.location.reload()
+
+        } catch (error) {
+            toast.error(error)
+        }
+    }
+
     return (
         <Container >
+            <ToastContainer />
             <Row>
                 <Col xs={12} md={4}>
 
                     <h2 className='my-2'>My Profile</h2>
                     <Form className='w-75'>
-                        <Form.Label id='username'  className='my-1'>Username</Form.Label>
-                       <FormControl type="text" name='username' placeholder='Username...'>
-                       </FormControl>
-                       <Form.Label id='email'  className='my-1'>Email</Form.Label>
-                       <FormControl type="text" name='email' placeholder='Email...'>
-                       </FormControl>
-                       <Form.Label id='password'  className='my-1'>Password</Form.Label>
-                       <FormControl type="password" name='password' placeholder='Password...'>
-                       </FormControl>
-                       <Form.Label id='cpassword'  className='my-1'>Confirm Password</Form.Label>
-                       <FormControl type="password" name='cpassword' placeholder='Confirm Password...'>
-                       </FormControl>
-                       <Button type="submit" variant='dark' className='my-3'>Update</Button>
+                        <Form.Label id='username' className='my-1'>Username</Form.Label>
+                        <FormControl type="text" name='username' placeholder='Username...' value={username}>
+                        </FormControl>
+                        <Form.Label id='email' className='my-1'>Email</Form.Label>
+                        <FormControl type="text" name='email' placeholder='Email...' value={email}>
+                        </FormControl>
+                        <Form.Label id='password' className='my-1'>Password</Form.Label>
+                        <FormControl type="password" name='password' placeholder='Password...'>
+                        </FormControl>
+                        <Form.Label id='cpassword' className='my-1'>Confirm Password</Form.Label>
+                        <FormControl type="password" name='cpassword' placeholder='Confirm Password...'>
+                        </FormControl>
+                        <Button type="submit" variant='dark' className='my-3'>Update</Button>
                     </Form>
 
                 </Col>
@@ -87,7 +107,7 @@ function Profile() {
                                                     Status:  {booking.status}
                                                 </ListGroup.Item>
                                                 <ListGroup.Item className='d-flex justify-content-end'>
-                                                    <Button variant='dark' >
+                                                    <Button variant='dark' onClick={() => cancelBooking(booking._id)}>
                                                         Cancel Booking
                                                     </Button>
                                                 </ListGroup.Item>

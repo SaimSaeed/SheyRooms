@@ -35,7 +35,7 @@ export default function Navbar() {
                     </a>
 
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <li><a className="dropdown-item" href="/bookings">Bookings</a></li>
+                      <li><a className="dropdown-item" href="/bookings">Profile</a></li>
                       <li><a className="dropdown-item" href="#" onClick={logOut}>LogOut</a></li>
 
                     </ul>

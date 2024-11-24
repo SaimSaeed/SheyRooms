@@ -20,11 +20,11 @@ function Room({ room,fromDate,toDate }) {
                 </div>
                 <div className='col-md-7 text-left'>
                     <h1>{room.name}</h1>
-                    <b>
+                    
                         <p>Max Count: {room.maxcount}</p>
                         <p>Phone Number: {room.phonenumber}</p>
                         <p>Type: {room.type}</p>
-                    </b>
+                    
                     <div style={{ float: "right" }}>
 
                          {(fromDate && toDate) &&   <Link to={`/book/${room._id}/${fromDate}/${toDate}`}>
