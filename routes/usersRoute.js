@@ -1,6 +1,60 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../models/user");
+const userModel = require('../models/user');
+
+
+router.get("/", async (req,res)=>{
+    try {
+        const users = await userModel.find({}).select("-password")
+        res.status(200).json(users) 
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+
+router.get("/:id", async (req,res)=>{
+    try {
+        const user = await userModel.findOne({_id:req.params.id}).select("-password")
+        res.status(200).json(user) 
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+router.put(("/:id"),async (req,res)=>{
+   try {
+    const user = await userModel.findOne({_id:req.params.id})
+    if(!user){
+      return res.status(404).json("User Not Found!")
+    }
+    user.name = req.body.name || user.name,
+    user.email = req.body.email || user.email,
+    user.password = req.body.password || user.password,
+    user.isAdmin = req.body.isAdmin || user.isAdmin
+    user.save()
+    return res.status(200).json({
+        _id: user._id,
+        name:user.name,
+        email:user.email,
+        isAdmin: user.isAdmin
+    })
+   } catch (error) {
+   return res.status(500).json(error)
+   }
+})
+
+
+router.delete("/:id",async (req,res)=>{
+  try {
+    await userModel.deleteOne({_id:req.params.id})
+    return res.status(200).json("User Deleted SuccessFully!")
+  } catch (error) {
+    return res.status(500).json(error)
+  }
+})
+
 
 
 router.post("/register", async (req, res) => {

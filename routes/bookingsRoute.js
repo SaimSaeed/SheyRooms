@@ -4,7 +4,77 @@ const Booking = require("../models/booking")
 const moment = require("moment")
 const Room = require("../models/room")
 const stripe = require("stripe")("sk_test_51P2Aq0IaFe5goczagPfPiPhu2CuhkPqtdiKiv4HIq5ZuliRKv78mRJUi1dvXYWb9fvpP22Ph5tDMXXUyhJMo2pIS00IF0St4W7")
-const { v4: uuid } = require("uuid")
+const { v4: uuid } = require("uuid");
+const bookingModel = require('../models/booking');
+const roomModel = require('../models/room');
+
+
+
+
+router.get("/", async (req, res) => {
+    try {
+        const bookings = await bookingModel.find({})
+        return res.status(200).json(bookings)
+
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+
+})
+
+
+router.delete("/:id", async (req, res) => {
+    try {
+        // // Fetching the booking that has to be deleted
+        // const booking = await bookingModel.findOne({ _id: req.params.id })
+
+        // if (booking) {
+        //     const room = await roomModel.findOne({ _id: booking.roomid })
+        //     if (room) {
+        //         room.currentbookings.pull({bookingid: booking._id})
+        //         room.save()
+        //     } else {
+        //         return res.status(404).json("No Room Found!")
+        //     }
+        //     await booking.deleteOne()
+        // } else {
+        //     return res.status(404).json("No Booking Found!")
+        // }
+
+        // return res.status(200).json("Booking Cancelled!")
+        //  Fetch the booking that needs to be deleted
+         const booking = await bookingModel.findOne({ _id: req.params.id });
+
+         if (!booking) {
+             return res.status(404).json({ message: "Booking not found!" });
+         }
+ 
+         // Find the corresponding room
+         const room = await roomModel.findOne({ _id: booking.roomid });
+ 
+         if (!room) {
+             return res.status(404).json({ message: "Room not found!" });
+         }
+ 
+         // Remove the booking from the room's current bookings
+         room.currentbookings = room.currentbookings.filter(
+             (b) => b.bookingid.toString() !== booking._id.toString()
+         );
+ 
+         // Save the updated room document
+         await room.save();
+ 
+         // Delete the booking
+         await booking.deleteOne();
+ 
+         // Return success response
+         return res.status(200).json({ message: "Booking cancelled successfully!" });
+
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+
+})
 
 router.post("/bookroom", async (req, res) => {
     // Requesting valuses from body or frontend
@@ -76,6 +146,7 @@ router.post("/bookroom", async (req, res) => {
     } catch (error) {
         return res.status(500).json(error)
     }
+
 
 
 

@@ -18,6 +18,7 @@ import AdminRoute from './components/AdminRoute';
 import AdminBookings from './screens/admin/AdminBookings';
 import AdminRooms from './screens/admin/AdminRooms';
 import AdminUsers from './screens/admin/AdminUsers';
+import AdminUser from './screens/admin/AdminUser';
 function App() {
   return (
     <>
@@ -36,6 +37,8 @@ function App() {
           <Route path='/admin/bookings' exact Component={AdminBookings} />
           <Route path='/admin/rooms' exact Component={AdminRooms} />
           <Route path='/admin/users' exact Component={AdminUsers} />
+          <Route path='/admin/users/edit/:id' exact Component={AdminUser} />
+
 
           </Route>
 

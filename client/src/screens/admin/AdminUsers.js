@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Container, Table, Button } from 'react-bootstrap'
+import { Container, Table, Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import Error from '../../components/Error'
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6'
 import { toast, ToastContainer } from 'react-toastify'
+import {FaTimes,FaCheck} from "react-icons/fa"
 function AdminUsers() {
-
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -30,14 +30,19 @@ function AdminUsers() {
 
     const deleteHandler = async (id) => {
         try {
-         await axios.delete(`http://localhost:5000/api/users/${id}`)
-         toast.success("User Deleted Successfully!")
-         window.location.reload()
+            const confirm = window.confirm("Are you sure yo want to delete?")
+          if(confirm){
+            await axios.delete(`http://localhost:5000/api/users/${id}`)
+            toast.success("User Deleted Successfully!")
+            window.location.reload()
+          }
+        
         } catch (error) {
             toast.error(error)
         }
     }
 
+ 
 
     return (
         <Container>
@@ -61,15 +66,17 @@ function AdminUsers() {
                                 <td>{user._id}</td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>{user.isAdmin ? "YES" : "NO"}</td>
+                                <td>{user.isAdmin ? <FaCheck className='text-success'/> : <FaTimes className='text-danger'/>}</td>
 
-                                <td><Button variant='dark' className='mx-2'><FaPenToSquare /></Button><Button variant='dark'><FaTrash onClick={()=>deleteHandler(user._id)}/></Button></td>
+                                <td><Link to={`/admin/users/edit/${user._id}`}  className='btn btn-dark mx-2'><FaPenToSquare/></Link><Button variant='danger'><FaTrash onClick={()=>deleteHandler(user._id)}/></Button></td>
                             </tr>
                         })}
                     </tbody>
 
 
                 </Table>}
+
+             
         </Container>
     )
 }
