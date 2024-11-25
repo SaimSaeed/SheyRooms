@@ -18,7 +18,7 @@ rentperday:{
     type: Number,
     required: true
 },
-imageUrls: [],
+imageurls: [],
 currentbookings:[],
 type:{
     type: String,

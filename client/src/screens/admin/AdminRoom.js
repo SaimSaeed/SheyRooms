@@ -5,7 +5,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import Loader from '../../components/Loader'
 import Error from '../../components/Error'
 import { useParams } from 'react-router-dom'
-function AdminUser() {
+function AdminRoom() {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -59,31 +59,29 @@ function AdminUser() {
 
         <Container>
             <ToastContainer/>
-            <h2 className='my-2 text-center'>Edit User</h2>
+            <h2 className='my-2 text-center'>Edit Room</h2>
             {loading && <Loader />}
             {error && <Error />}
             <Form className='w-50 mx-auto' onSubmit={updateHandler}>
-                <Form.Label id='username' className='my-1'>Username</Form.Label>
+                <Form.Label id='username' className='my-1'>Title</Form.Label>
                 <FormControl type="text" name='username' placeholder='Username...' value={username} onChange={e => setUsername(e.target.value)}>
                 </FormControl>
-                <Form.Label id='email' className='my-1'>Email</Form.Label>
+                <Form.Label id='email' className='my-1'>Description</Form.Label>
                 <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
                 </FormControl>
-                <Form.Label id='password' className='my-1'>Password</Form.Label>
-                <FormControl type="password" name='password' placeholder='Password...' onChange={e => setPassword(e.target.value)}>
+                <Form.Label id='email' className='my-1'>Type</Form.Label>
+                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
                 </FormControl>
-                <Form.Label id='cpassword' className='my-1'>Confirm Password</Form.Label>
-                <FormControl type="password" name='cpassword' placeholder='Confirm Password...' onChange={e => setCPassword(e.target.value)}>
+                <Form.Label id='email' className='my-1'>Rent (Per Day)</Form.Label>
+                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
                 </FormControl>
-                <Form.Label id='username' className='my-1'>Admin</Form.Label>
-                <Form.Check
-                    type="switch"
-                    id="custom-switch"
-                    label= {isAdmin ? "isAdmin": "notIsAdmin"}
-                    checked={isAdmin}
-                    onChange={e=>setIsAdmin(e.target.checked)}
-                />
-              
+                <Form.Label id='email' className='my-1'>Phone No</Form.Label>
+                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                </FormControl>
+                <Form.Label id='email' className='my-1'>Max Count</Form.Label>
+                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                </FormControl>
+                
 
                 <Button type="submit" variant='dark' className='my-3'>Update</Button>
             </Form>
@@ -92,4 +90,4 @@ function AdminUser() {
     )
 }
 
-export default AdminUser
+export default AdminRoom

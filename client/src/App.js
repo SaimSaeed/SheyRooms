@@ -19,6 +19,7 @@ import AdminBookings from './screens/admin/AdminBookings';
 import AdminRooms from './screens/admin/AdminRooms';
 import AdminUsers from './screens/admin/AdminUsers';
 import AdminUser from './screens/admin/AdminUser';
+import AdminRoom from './screens/admin/AdminRoom';
 function App() {
   return (
     <>
@@ -36,6 +37,7 @@ function App() {
           <Route element={<AdminRoute/>}>
           <Route path='/admin/bookings' exact Component={AdminBookings} />
           <Route path='/admin/rooms' exact Component={AdminRooms} />
+          <Route path='/admin/rooms/edit/:id' exact Component={AdminRoom} />
           <Route path='/admin/users' exact Component={AdminUsers} />
           <Route path='/admin/users/edit/:id' exact Component={AdminUser} />
 
