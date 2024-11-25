@@ -51,7 +51,7 @@ export default function Navbar() {
                 </>)
               }
 
-              {user.isAdmin &&
+              {user?.isAdmin &&
                 <NavDropdown title={"Admin"} id="basic-nav-dropdown" className='mx-2'>
                    
                    <NavDropdown.Item ><Link to={"/admin/bookings"} className='text-dark text-decoration-none'>Bookings</Link></NavDropdown.Item>

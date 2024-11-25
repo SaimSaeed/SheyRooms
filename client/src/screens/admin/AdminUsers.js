@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Container,Table } from 'react-bootstrap'
+import { Container,Table,Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import Error from '../../components/Error'
+import { FaPenToSquare, FaTrash } from 'react-icons/fa6'
 function AdminUsers() {
 
   const [users, setUsers] = useState([])
@@ -48,7 +49,7 @@ console.log(users)
             <td>{user.email}</td>
             <td>{user.isAdmin ? "YES" : "NO"}</td>
 
-            <td><Link to={`/user/${user._id}`} className=' btn btn-dark'>Details</Link></td>
+            <td><Button variant='dark' className='mx-2'><FaPenToSquare /></Button><Button variant='dark'><FaTrash/></Button></td>
           </tr>
         })}
       </tbody>
