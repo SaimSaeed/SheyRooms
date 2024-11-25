@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { NavDropdown } from 'react-bootstrap'
+import {FaUser} from "react-icons/fa6"
 export default function Navbar() {
 
-// Getting User From Local Storage
+  // Getting User From Local Storage
   const user = JSON.parse(localStorage.getItem("currentUser"))
 
-// Removing User From Local Storage
+  // Removing User From Local Storage
   const logOut = () => {
     localStorage.removeItem("currentUser");
     window.location.href = "/login"
@@ -23,23 +24,19 @@ export default function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0" style={{ marginRight: "8%" }}>
-{/* If User is Available Ternary Operator is used */}
+              {/* If User is Available Ternary Operator is used */}
               {user ? (
                 <>
 
-                  <div className="dropdown">
-                    <a className="btn btn-secondary dropdown-toggle bg-dark" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                      </svg> {user.name}
-                    </a>
+                  <NavDropdown title={<FaUser/>} id="basic-nav-dropdown" className='mx-2'>
+                   
+                    <NavDropdown.Item ><Link to={"/bookings"} className='text-dark text-decoration-none'>Profile</Link></NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={logOut}>
+                      Logut
+                    </NavDropdown.Item>
+                  </NavDropdown>
 
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <li><a className="dropdown-item" href="/bookings">Profile</a></li>
-                      <li><a className="dropdown-item" href="#" onClick={logOut}>LogOut</a></li>
-
-                    </ul>
-                  </div>
 
                 </>) : (
                 <>
@@ -52,6 +49,17 @@ export default function Navbar() {
 
 
                 </>)
+              }
+
+              {user.isAdmin &&
+                <NavDropdown title={"Admin"} id="basic-nav-dropdown" className='mx-2'>
+                   
+                   <NavDropdown.Item ><Link to={"/admin/bookings"} className='text-dark text-decoration-none'>Bookings</Link></NavDropdown.Item>
+                   <NavDropdown.Item ><Link to={"/admin/rooms"} className='text-dark text-decoration-none'>Rooms</Link></NavDropdown.Item>
+                   <NavDropdown.Item ><Link to={"/admin/users"} className='text-dark text-decoration-none'>Users</Link></NavDropdown.Item>
+
+              
+              </NavDropdown>
               }
 
             </ul>

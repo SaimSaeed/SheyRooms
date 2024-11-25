@@ -24,7 +24,7 @@ function Loginscreen() {
       const result = await (await axios.post('http://localhost:5000/api/users/login', user)).data
       setloading(false);
       localStorage.setItem("currentUser", JSON.stringify(result))  //In Local Storage we cannot define an array or object so that's why we will stringify the data
-      window.location.href = "/home"
+      window.location.href = "/"
 
 
     } catch (error) {
