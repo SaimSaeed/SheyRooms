@@ -23,6 +23,16 @@ router.get("/", async (req, res) => {
 })
 
 
+router.get("/:id", async (req,res)=>{
+   try {
+    const booking = await bookingModel.findOne({_id:req.params.id})
+    return res.status(200).json(booking)
+   } catch (error) {
+    return res.status(500).json(error)
+   }
+})
+
+
 router.delete("/:id", async (req, res) => {
     try {
         // // Fetching the booking that has to be deleted

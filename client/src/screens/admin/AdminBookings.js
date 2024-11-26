@@ -49,7 +49,7 @@ function AdminBookings() {
             <td>{booking.room.substring(0,30)}</td>
             <td>{booking.createdAt.substring(0,10)}</td>
             <td>{booking.totalamount}</td>
-            <td><Link to={`/booking/${booking._id}`} className=' btn btn-dark'>Details</Link></td>
+            <td><Link to={`/admin/booking/details/${booking._id}`} className=' btn btn-dark'>Details</Link></td>
           </tr>
         })}
       </tbody>
