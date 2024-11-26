@@ -6,11 +6,12 @@ import Loader from '../../components/Loader'
 import Error from '../../components/Error'
 import { useParams } from 'react-router-dom'
 function AdminRoom() {
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [cPassword, setCPassword] = useState("")
-    const [isAdmin, setIsAdmin] = useState(false)
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [type, setType] = useState("")
+    const [rentperday, setRentPerDay] = useState(0)
+    const [phonenumber, setPhoneNumber] = useState(0)
+    const [maxcount, setMaxCount] = useState(0)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
     const params = useParams()
@@ -19,10 +20,13 @@ function AdminRoom() {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const res = (await axios.get(`http://localhost:5000/api/users/${id}`)).data
-                setUsername(res.name)
-                setEmail(res.email)
-                setIsAdmin(res.isAdmin)
+                const res = (await axios.get(`http://localhost:5000/api/rooms/${id}`)).data
+                setName(res.name)
+                setDescription(res.description)
+                setType(res.type)
+                setRentPerDay(res.rentperday)
+                setPhoneNumber(res.phonenumber)
+                setMaxCount(res.maxcount)
             } catch (error) {
                 toast.error(error)
             }
@@ -36,13 +40,13 @@ function AdminRoom() {
 
     const updateHandler = async (e) => {
         e.preventDefault()
-        if (password !== cPassword) {
-            return toast.error("Passwords do not match!")
-        }
+        
         try {
             setLoading(true)
-            await axios.put(`http://localhost:5000/api/users/${id}`, { name: username, email, password,isAdmin })
-            toast.success("Updated User!")
+            await axios.put(`http://localhost:5000/api/rooms/${id}`, {
+                name,description,type,rentperday,phonenumber,maxcount
+            })
+            toast.success("Updated Room!")
             setLoading(false)
             window.location.reload()
         } catch (error) {
@@ -63,23 +67,26 @@ function AdminRoom() {
             {loading && <Loader />}
             {error && <Error />}
             <Form className='w-50 mx-auto' onSubmit={updateHandler}>
-                <Form.Label id='username' className='my-1'>Title</Form.Label>
-                <FormControl type="text" name='username' placeholder='Username...' value={username} onChange={e => setUsername(e.target.value)}>
+                <Form.Label id='name' className='my-1'>Title</Form.Label>
+                <FormControl type="text" name='name' placeholder='Name...' value={name} onChange={e => setName(e.target.value)}>
                 </FormControl>
-                <Form.Label id='email' className='my-1'>Description</Form.Label>
-                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                <Form.Label id='description' className='my-1'>Description</Form.Label>
+                <FormControl type="text" name='description' placeholder='Description...' value={description} onChange={e => setDescription(e.target.value)}>
                 </FormControl>
-                <Form.Label id='email' className='my-1'>Type</Form.Label>
-                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                <Form.Label id='type' className='my-1'>Type</Form.Label>
+                <FormControl as={"select"} name='type'  value={type} onChange={e => setType(e.target.value)}>
+                    <option selected value={""}>Select...</option>
+                    <option value={"Non-Delux"}>Non Delux</option>
+                    <option value={"Delux"}>Delux</option>
                 </FormControl>
-                <Form.Label id='email' className='my-1'>Rent (Per Day)</Form.Label>
-                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                <Form.Label id='rent' className='my-1'>Rent (Per Day)</Form.Label>
+                <FormControl type="text" name='rent' placeholder='Rent...' value={rentperday} onChange={e => setRentPerDay(e.target.value)}>
                 </FormControl>
-                <Form.Label id='email' className='my-1'>Phone No</Form.Label>
-                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                <Form.Label id='phone' className='my-1'>Phone No</Form.Label>
+                <FormControl type="number" name='phone' placeholder='Phone...' value={phonenumber} onChange={e => setPhoneNumber(e.target.value)}>
                 </FormControl>
-                <Form.Label id='email' className='my-1'>Max Count</Form.Label>
-                <FormControl type="text" name='email' placeholder='Email...' value={email} onChange={e => setEmail(e.target.value)}>
+                <Form.Label id='count' className='my-1'>Max Count</Form.Label>
+                <FormControl type="number" name='count' placeholder='Count...' value={maxcount} onChange={e => setMaxCount(e.target.value)}>
                 </FormControl>
                 
 
